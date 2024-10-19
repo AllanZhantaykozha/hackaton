@@ -1,31 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { NAvbar } from "./Navbar";
-import { ITasks } from "./Task";
-import { fetchTheory } from "../api/api";
+import { GetThemesResponse, ThemeContent } from "../api/types";
+import { getThemes, getTheory } from "../api/api";
 
 interface Props {
   className?: string;
 }
 
 export const Home: React.FC<Props> = ({}) => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [data, setData] = useState<GetThemesResponse | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const loadUsers = async () => {
+    const fetchThemes = async () => {
+      setLoading(true);
+      setError(null);
       try {
-        const data = await fetchTheory(); // Вызываем функцию для получения данных
-        setData(data); // Устанавливаем данные в состояние
-      } catch (error: any) {
-        setError(error.message);
+        const response = await getTheory();
+        setData(response);
+      } catch (err) {
+        setError("Ошибка при получении тем");
       } finally {
-        setLoading(false); // Завершаем загрузку
+        setLoading(false);
       }
     };
 
-    loadUsers();
-  }, []); // Пустой массив зависимостей для выполнения только один раз при монтировании компонента
+    fetchThemes();
+  }, []);
 
   return (
     <div
@@ -87,14 +89,12 @@ export const Home: React.FC<Props> = ({}) => {
           </div>
 
           <div className="grid gap-5 h-full">
-            {data.map((obj: ITasks) => (
-              <a href={`task/${obj.id}`}>
-                <div
-                  key={obj.id}
-                  className="w-full p-5 bg-[#191930] rounded-xl"
-                >
-                  <div className="font-semibold text-sm">{obj.title}</div>
-                  <div className="font-thin text-xs">{obj.content}</div>
+            {data.map((obj: ThemeContent) => (
+              <a href={`theory/${obj.theoryId}`}>
+                <div className="w-full p-5 bg-[#191930] rounded-xl">
+                  <div className="font-semibold text-xl text-white">
+                    {obj.title}
+                  </div>
                 </div>
               </a>
             ))}
