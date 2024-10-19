@@ -9,7 +9,7 @@ export const TAsk: React.FC<Props> = ({}) => {
     <div className="bg-[#191930] flex justify-center">
       <div
         className={
-          'bg-[url("task.jpeg")] w-full h-screen  bg-center bg-cover bg-no-repeat'
+          'bg-[url("/task.jpeg")] w-full h-screen  bg-center bg-cover bg-no-repeat'
         }
       >
         <div className="p-10 flex flex-col gap-5 mt-[80%] md:mt-[65%] bg-[#131326] rounded-t-2xl w-full ">
