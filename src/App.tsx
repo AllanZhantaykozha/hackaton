@@ -10,7 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Start userName="Allan" />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/task" element={<TAsk />} />
+        <Route path="/task/:id" element={<TAsk />} />
         <Route element={<NotFound />} /> {/* Страница 404 */}
       </Routes>
     </Router>
